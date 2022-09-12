@@ -12,6 +12,11 @@ public class BasicOpMode_Iterative extends OpMode {
     private DcMotor backLeftMotor = null;
     private DcMotor backRightMotor = null;
 
+    double leftPower;
+    double rightPower;
+    double drive;
+    double turn;
+
     @Override
     public void init() {
         frontLeftMotor  = hardwareMap.get(DcMotor.class, "front_left_motor");
@@ -42,6 +47,13 @@ public class BasicOpMode_Iterative extends OpMode {
 
     @Override
     public void loop() {
-
+        drive = -gamepad1.left_stick_y;
+        turn = gamepad1.right_stick_x;
+        leftPower = Range.clip(drive + turn, -1.0, 1.0);
+        rightPower = Range.clip(drive - turn, -1.0, 1.0);
+        frontLeftMotor.setPower(leftPower);
+        frontRightMotor.setPower(rightPower);
+        backLeftMotor.setPower(leftPower);
+        backRightMotor.setPower(rightPower);
     }
 }
